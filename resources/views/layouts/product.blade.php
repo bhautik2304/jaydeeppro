@@ -32,7 +32,7 @@
 
 </head>
 
-<body style="background-image: url({{url('bg.jpg')}})">
+ <body >{{--</body>style="background-image: url({{url('bg.jpg')}})"> --}}
     <x-navbar style=''/>
     @yield('content')
     {{-- <div id="preloader"></div> --}}

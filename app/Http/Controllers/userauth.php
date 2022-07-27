@@ -25,7 +25,7 @@ class userauth extends Controller
         $usersdata=$users->toArray();
         if(!$usersdata){
 
-            Auth::login($users);
+            // Auth::login($users);
 
             return redirect('/');
 
@@ -41,8 +41,19 @@ class userauth extends Controller
             'googel_tocken'=>$GoogelUser->token
         ]);
         session()->put(['user' => $GoogelUser->name]);
-        Auth::login($user);
         return redirect('/');
 
+    }
+
+    public function login(Request $req)
+    {
+        # code...
+        $user=User::where('mobaile',$req->input('mobaile'))->first();
+        if(!$user){
+            return "no user found";
+        }
+        session()->put('login', true);
+        session()->put('user', $user->toArray());
+        return $user;
     }
 }

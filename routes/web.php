@@ -20,6 +20,18 @@ use Illuminate\Support\Facades\Auth;
 Route::get('/', function () {
     return view('home');
 });
+// app auth
+Route::post('auth/login',[userauth::class,'login']);
+Route::get('auth/registration',[userauth::class,'GoogelCall']);
+Route::get('auth/resetpassword',[userauth::class,'GoogelCall']);
+// social auth
+Route::get('auth/google',[userauth::class,'GoogelCall']);
+Route::get('auth/callback',[userauth::class,'GoogelSignup']);
+
+Route::middleware(['auth', 'second'])->group(function () {
+
+});
+
 
 Route::get('/menu', function () {
     $cate=menucategury::with('product')->get();
@@ -28,8 +40,6 @@ Route::get('/menu', function () {
 });
 
 // therd party user signup routs(googele,facebook)
-Route::get('auth/google',[userauth::class,'GoogelCall']);
-Route::get('/auth/callback',[userauth::class,'GoogelSignup']);
 
 // therd party user login routs(googele,facebook)
 // Route::get('login/google',[userauth::class,'GoogelCall']);
