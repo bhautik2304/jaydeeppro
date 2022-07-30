@@ -29,10 +29,10 @@
 
     <!-- Template Main CSS File -->
     <link href="assets/css/main.css" rel="stylesheet">
-
+    <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
 </head>
 
-<body style="background-image: url({{url('bg.jpg')}});background-size: 100% 100vh;background-repeat: no-repeat;">
+ <body >{{--style="background-image: url({{url('bg.jpg')}});background-size: 100% 100vh;background-repeat: no-repeat;"> --}}
     <x-navbar style='background: transparent !important;border-bottom: 0px !important;'/>
     @yield('content')
     {{-- <div id="preloader"></div> --}}

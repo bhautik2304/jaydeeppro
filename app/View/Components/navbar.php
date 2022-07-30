@@ -3,7 +3,7 @@
 namespace App\View\Components;
 
 use Illuminate\View\Component;
-
+use App\Models\cart;
 class navbar extends Component
 {
     public $style;
@@ -25,6 +25,21 @@ class navbar extends Component
      */
     public function render()
     {
-        return view('components.navbar');
+        if (session()->get('login')==true) {
+            # code...
+            $cartdata=[
+                "product"=>cart::where("userid",session()->get('user')['id'])
+                               ->with('menu')
+                               ->get(),
+                "cart_totale"=>cart::where("userid",session()->get('user')['id'])->sum('totale_price'),
+            ];
+        }else {
+            # code...
+            $cartdata=[
+                "product"=>[],
+                "cart_totale"=>0,
+            ];
+        }
+        return view('components.navbar',["cartdata"=>$cartdata]);
     }
 }

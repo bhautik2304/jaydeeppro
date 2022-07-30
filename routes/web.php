@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\{userauth};
+use App\Http\Controllers\{userauth,pagemanage,adminroutescontroller};
 use Illuminate\Support\Facades\Route;
 use App\Models\{menucategury,menu};
 use Laravel\Socialite\Facades\Socialite;
@@ -17,13 +17,18 @@ use Illuminate\Support\Facades\Auth;
 |
 */
 
-Route::get('/', function () {
-    return view('home');
-});
+// Route::get('/', function () {
+//     return view('home');
+// });
+
+Route::get('/', [pagemanage::class,'index'])->name('home');
+Route::get('about', [pagemanage::class,'about'])->name('about');
+
+Route::get('auth/login',[userauth::class,'login']);
 // app auth
 Route::post('auth/login',[userauth::class,'login']);
-Route::get('auth/registration',[userauth::class,'GoogelCall']);
-Route::get('auth/resetpassword',[userauth::class,'GoogelCall']);
+Route::post('auth/registration',[userauth::class,'register'])->name('register');
+Route::get('auth/resetpassword',[userauth::class,'GoogelCall'])->name('reset');
 // social auth
 Route::get('auth/google',[userauth::class,'GoogelCall']);
 Route::get('auth/callback',[userauth::class,'GoogelSignup']);
@@ -32,12 +37,14 @@ Route::middleware(['auth', 'second'])->group(function () {
 
 });
 
+Route::get('admin/',[adminroutescontroller::class,'index'])->name('adminhome');
+
 
 Route::get('/menu', function () {
     $cate=menucategury::with('product')->get();
     $data=["pro"=>menucategury::with('product')->get()->toArray()];
     return view('menu',["data"=>$data]);
-});
+})->name('menu');
 
 // therd party user signup routs(googele,facebook)
 
@@ -45,13 +52,15 @@ Route::get('/menu', function () {
 // Route::get('login/google',[userauth::class,'GoogelCall']);
 // Route::get('/auth/callback',[userauth::class,'GoogelSignup']);
 
-Route::get('/test', function () {
+Route::post('/test', function () {
 
-    $cate=menucategury::with('product')->get();
- return $cate;
+//     $cate=menucategury::with('product')->get();
+//  return $cate;
+return "hello";
 });
 
 Route::get('/logout', function () {
-    Auth::logout();
+    session()->put('login',false);
+    session()->forget('user');
  return redirect('/');
-});
+})->name('logout');
